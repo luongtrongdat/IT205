@@ -1,4 +1,5 @@
 danh_sach_nhan_vien = []
+id_tu_dong = 101
 
 while True:
     print("\n" + "="*35)
@@ -15,55 +16,46 @@ while True:
     if choice == "1":
         print("\n--- 👨🏼‍💻 THÊM NHÂN VIÊN MỚI ---")
         
-        while True:
-            ma_nv = input("Nhập mã nhân viên: ").strip()
-            if not ma_nv:
-                print("💢 Mã nhân viên không được để trống!")
-                continue
-            trung = False
-            for i in danh_sach_nhan_vien:
-                if i['id'] == ma_nv:
-                    trung = True
-                    break
-            if trung:
-                print(f"💥 Mã ID '{ma_nv}' đã tồn tại! Vui lòng nhập mã khác.")
-            else:
-                break
+        ma_nv = id_tu_dong
         while True:
             ten_nv = input("Nhập họ và tên nhân viên: ").strip()
             if ten_nv:
                 break
             print("💥 Họ tên không được để trống!")
         while True:
-            luong_input = input("Nhập mức lương của nhân viên: ").strip()
-            luong = int(luong_input)
-            if luong > 0:
+            luong_input = input("Nhập mức lương: ").strip()
+            if not luong_input:
+                print("💢 Mức lương không được để trống. Vui lòng nhập lại.")
+                continue
+            luong_nv = float(luong_input)
+            if luong_nv > 0:
                 break
             else:
-                print("💢 Lương phải là số lớn hơn 0!")
+                print("💢 Mức lương phải là số dương (> 0). Vui lòng nhập lại.")
         nhan_vien_moi = {
             "id": ma_nv,
             "name": ten_nv,
-            "luong": luong
+            "luong": luong_nv
         }
         danh_sach_nhan_vien.append(nhan_vien_moi)
-        print(f"🎉 Thêm thành công nhân viên: {ten_nv} (ID: {ma_nv})")
+        print(f"🎉 Thêm nhân viên thành công! ID: {ma_nv}")
+        id_tu_dong += 1
 # Chức năng 2:
     elif choice == "2":
-        print("\n--- DANH SÁCH NHÂN VIÊN HIỆN TẠI ---")
+        print("\n--- 🎃 DANH SÁCH NHÂN VIÊN HIỆN TẠI ---")
         if len(danh_sach_nhan_vien) == 0:
             print("⚡ Hệ thống hiện tại chưa có nhân viên nào.")
         else:
-            print(f"{'ID':<5} | {'Tên NV (ID)':<12} | {'Mức lương':<10}")
+            print(f"{'ID':<5} | {'Tên NV':<12} | {'Mức lương':<10}")
             stt = 1
             for nv in danh_sach_nhan_vien:
-                print(f"{stt:<5} | {nv['id']:<12} | {nv['name']:<25} | {nv['luong']:<6}")
+                print(f"{nv['id']:<5} | {nv['name']:<12} | {nv['luong']:<10}")
                 stt += 1
-            print(f"\nTổng số nhân viên: {len(danh_sach_nhan_vien)}")
+            print(f"\n👍 Tổng số nhân viên: {len(danh_sach_nhan_vien)}")
 
 # Chức năng 3:
     elif choice == "3":
-        print("\n--- XÓA NHÂN VIÊN ---")
+        print("\n--- 🍔 XÓA NHÂN VIÊN ---")
         if len(danh_sach_nhan_vien) == 0:
             print("💥 Hệ thống trống, không có dữ liệu để xóa.")
             continue
@@ -71,7 +63,7 @@ while True:
         ma_xoa = input("Nhập mã nhân viên (ID) cần xóa: ").strip()
 # Chức năng 4:
     elif choice == "4":
-        print("Thoát chương trình!")
+        print("🤢 Thoát chương trình! 🤮")
         break
     else:
         print("💥 Lựa chọn không hợp lệ! Vui lòng chỉ nhập số từ 1 đến 4.")
