@@ -1,69 +1,113 @@
 cart_items = [
-    {
-        "id": "P001", 
-        "name": "Dien thoai iPhone 15",
-        "number": 1,
-        "price": 25000000
-    },
-    {
-        "id": "P002",
-        "name": "Op lung Silicon", 
-        "number": 2, 
-        "price": 150000
-    }
+         {
+         	"id": "P001", 
+         	"name": "Dien thoai iPhone 15",
+         	"number": 1,
+         	"price": 25000000
+         },
+         {
+         	"id": "P002",
+         	"name": "Op lung Silicon", 
+         	"number": 2, 
+         	"price": 150000
+         }
 ]
-
 while True:
-    print("\n" + "="*40)
-    print("🛍  AMAZON CART MANAGEMENT SYSTEM CLI  🛍")
-    print("="*40)
-    print("1. Xem chi tiết giỏ hàng và Tổng tiền")
-    print("2. Thêm sản phẩm mới hoặc Tăng số lượng")
-    print("3. Cập nhật số lượng sản phẩm")
-    print("4. Xóa sản phẩm khỏi giỏ hàng")
-    print("5. Thoát chương trình")
-    print("="*40)
-    choice_str = input("Vui lòng chọn chức năng (1-5): ").strip()
+    print("""
+            SHOP CART MANAGEMENT SYSYTEM
+            1. Xem chi tiết giỏ hàng và tính tổng tiền
+            2. Thêm sản phẩm mới / Cộng dồ số lượng
+            3. Cập nhật số lượng của một sản phẩm 
+            4. Xóa sản phẩm khỏi giỏ hàng
+            5.Thoát chương trình 
+""")
+    
+    choice = input("Mời bạn chọn chức năng (1-5): ")
+    if choice == "1":
+        print("--- CHI TIẾT GIỎ HÀNG ---")
+        print("STT | Mã SP | Tên sản phẩm | SL | Đơn giá | Thành Tiền")
+        total_number = 0
+        total_pice = 0
+        for i , cart in enumerate(cart_items, start=1):
+            total_number += cart["number"]
+            total_pice += cart["price"] * cart["number"]
+            print(f" {i} | {cart['id']} | {cart['name']} | {cart['number']} | {cart['price']} | {cart['number']*cart['price']}")
+        print(f"tổng sl sản phẩm trong giỏ: {total_number}")
+        print(f"Tổng tiền thanh toán: {total_pice}đ")
+    elif choice == "2":
 
-    if choice_str not in ["1", "2", "3", "4", "5"]:
-        print("💥Lỗi: Chức năng không hợp lệ! Vui lòng nhập số từ 1 đến 5.")
-        continue
-    choice = int(choice_str)
-    if choice == 1:
-        print("Chi tiết giỏ hàng:")
-        print("-"*40)
-        total = 0
-        for item in cart_items: 
-            print(f"ID: {item['id']}, Tên: {item['name']}, Số lượng: {item['number']}, Giá: {item['price']}")
-            total += item['number'] * item['price']
-        print("-"*40)
-        print(f"🧧 Tổng tiền: {total}")
-    elif choice == 2:
-        new_item = {}
-        new_item['id'] = input("Nhập ID sản phẩm: ")
-        new_item['name'] = input("Nhập tên sản phẩm: ")
-        new_item['number'] = int(input("Nhập số lượng sản phẩm: "))
-        new_item['price'] = int(input("Nhập giá sản phẩm: "))
-        cart_items.append(new_item)
-        print("🤗 Thêm sản phẩm thành công!")
-    elif choice == 3:
-        item_id = input("Nhập ID sản phẩm cần cập nhật: ")
-        for item in cart_items:
-            if item['id'] == item_id:
-                item['number'] = int(input("Nhập số lượng mới: "))
-                item['price'] = int(input("Nhập giá mới: "))
-                print("✨ Cập nhật sản phẩm thành công!")
+        cart_id = input("Nhập mã sản phẩm: ").strip().upper()
+        duplicate = False
+
+        for cart in cart_items:
+            if cart["id"] == cart_id:
+                duplicate = True
+                cart_number_str = input("Nhập số lượng muốn cộng dồn thêm: ").strip()
+                if not cart_number_str.isdigit():
+                    print("Số lượng phải là ký tự số hợp lệ")
+                    continue
+                added_number = int(cart_number_str)
+                if added_number <= 0:
+                    print("Số lượng cộng thêm phải lớn hơn 0")
+                    continue
+                cart["number"] += added_number
                 break
+
+        if duplicate == True:
+             continue
+        
+        cart_name = input("Nhập tên sản phẩm: ").strip()
+        cart_number = input("Nhập số lượng sản phẩm: ").strip()
+        cart_price = input("Nhập đơn giá sản phẩm: ").strip()
+        
+        if not cart_number.isdigit() or not cart_price.isdigit():
+            print("Hệ thống phải báo lỗi và không thực hiện thao tác")
+            continue
+
+        number = int(cart_number)
+        price = int(cart_price)
+
+        if number <= 0 or price < 0:
+            print("Hệ thống phải báo lỗi và không thực hiện thao tác")
+
+    elif choice == "3":
+        cart_id = input("Nhập mã sản phẩm: ").strip().upper()
+        duplicate = False
+
+        for cart in cart_items:
+            if cart["id"] == cart_id:
+                duplicate = True
+                break
+        if duplicate == True:
+            cart_number = input("nhập số lượng mới cần thay đổi: ")
+            if not cart_number.isdigit() :
+                print("Hệ thống phải báo lỗi và không thực hiện thao tác")
+                continue
+            number = int(cart_number)
+            if number <= 0 :
+                print("Hệ thống phải báo lỗi và không thực hiện thao tác")
+            for cart in cart_items:
+                if cart["id"] == cart_id:
+                    cart["number"] = number
+                    break
         else:
-            print("🎃 Không tìm thấy sản phẩm với ID này.")
-    elif choice == 4:
-        item_id = input("Nhập ID sản phẩm cần xóa: ")
-        for item in cart_items:
-            if item['id'] == item_id:
-                cart_items.remove(item)
-                print("🎉 Xóa sản phẩm thành công!")
-        else:
-            print("🎃 Không tìm thấy sản phẩm với ID này.")
-    elif choice == 5:
-        print("🤢 Cảm ơn bạn đã sử dụng chương trình!🤮")
+            print("Mã sản phẩm không tồn tại trong giỏ hàng.")
+
+    elif choice == "4":
+        cart_id = input("Nhập mã sản phẩm: ").strip().upper()
+        duplicate = False
+        for cart in cart_items:
+            if cart["id"] == cart_id:
+                duplicate = True
+                cart_items.remove(cart)
+                print("Xóa sản phẩm thành công.")
+                print
+                break
+        if duplicate == False:
+             print("Mã sản phẩm không tồn tại trong giỏ hàng.")
+             continue
+    elif choice == "5":
+        print("bạn đã thoát chương trình")
         break
+    else:
+        print("dữ liệu nhập không hợp lệ")
