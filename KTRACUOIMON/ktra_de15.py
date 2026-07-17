@@ -95,7 +95,7 @@ class BankAccountManager:
             return
         
 
-def show_menu(self):
+def show_menu():
     print("""
 ============== MENU ==============
     1. HIỆN THỊ DANH SÁCH TÀI KHOẢN
